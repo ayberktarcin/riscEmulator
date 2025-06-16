@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/RiscEmulator.dir/src/main.cpp.o CMakeFiles/RiscEmulator.dir/src/machine.cpp.o -o RiscEmulator 

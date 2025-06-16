@@ -1,0 +1,3 @@
+/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles/RiscEmulator.dir
+/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles/edit_cache.dir
+/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles/rebuild_cache.dir

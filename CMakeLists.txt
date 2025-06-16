@@ -9,5 +9,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_executable(RiscEmulator
     src/main.cpp
     src/machine.cpp
-    src/instruction.cpp
 )
