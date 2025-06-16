@@ -13,6 +13,8 @@ public:
     void loadProgram(const std::vector<Instruction>& program);
     void run();
     void reset();
+    void setMemoryValue(uint32_t address, uint32_t value);
+    uint32_t getMemoryValue(uint32_t address) const;
 
 private:
     void execute(const Instruction& instr);

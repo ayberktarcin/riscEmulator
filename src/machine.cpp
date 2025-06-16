@@ -1,6 +1,7 @@
 // src/machine.cpp
 #include "machine.hpp"
 #include <iostream>
+#include <cstring>
 
 RiscMachine::RiscMachine(size_t memory_size) {
     memory.resize(memory_size);
@@ -71,4 +72,23 @@ void RiscMachine::execute(const Instruction& instr) {
             }
             break;
     }
+}
+
+
+void RiscMachine::setMemoryValue(uint32_t address, uint32_t value) {
+    if (address < memory.size()) {
+        // Store raw value as instruction-shaped memory
+        Instruction instr;
+        std::memcpy(&instr, &value, sizeof(uint32_t));
+        memory[address] = instr;
+    }
+}
+
+uint32_t RiscMachine::getMemoryValue(uint32_t address) const {
+    if (address < memory.size()) {
+        uint32_t value;
+        std::memcpy(&value, &memory[address], sizeof(uint32_t));
+        return value;
+    }
+    return 0;
 }
