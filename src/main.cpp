@@ -25,8 +25,8 @@ int main() {
         {Opcode::LOAD, 2, const_one_addr, 0},   // R2 = 1
 
         // loop_start
-        {Opcode::CMP, 1, 2, 0},                // if R1 == 1
-        {Opcode::JMP, 9, 1, 0},                // if ZF == 1 → skip MUL/SUB
+        {Opcode::CMP, 0, 1, 2},                // if R1 == 1
+        {Opcode::JMP, 8, 1, 0},                // if ZF == 1 → skip MUL/SUB
 
         {Opcode::MUL, 0, 0, 1},                 // result *= i
         {Opcode::SUB, 1, 1, 2},                 // i--

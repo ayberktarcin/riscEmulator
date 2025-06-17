@@ -19,8 +19,6 @@ void RiscMachine::run() {
         Instruction instr = program_memory[pc];
         pc++;
         execute(instr);
-        std::cout << "Instruction executed: " << static_cast<int>(instr.opcode) 
-             << " | PC: " << pc - 1 << std::endl;
         if (instr.opcode == Opcode::HALT) break;
     }
 }
@@ -42,8 +40,9 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::STORE:
-            if (instr.dst < data_memory.size() && instr.src1 < registers.size())
+            if (instr.dst < data_memory.size() && instr.src1 < registers.size()){
                 data_memory[instr.dst] = registers[instr.src1];
+            }
             break;
 
         case Opcode::ADD:
@@ -58,28 +57,22 @@ void RiscMachine::execute(const Instruction& instr) {
 
         case Opcode::CMP:
             if (instr.src1 < registers.size() && instr.src2 < registers.size()) {
-                std::cout << "CMP: R" << instr.src1 << " = " << registers[instr.src1]
-                        << ", R" << instr.src2 << " = " << registers[instr.src2] << std::endl;
-                zero_flag = (registers[instr.src1] == registers[instr.src2]);
+                zero_flag = (registers[instr.src1] == registers[instr.src2])? true : false;
             }
             break;
 
         case Opcode::JMP:
-            if (instr.dst < registers.size()) {
-                // src1 == 0 → unconditional jump
-                // src1 == 1 → jump if zero_flag
-                std::cout << "Jumping to address: " << instr.dst << std::endl;
-                std::cout << instr.src1 << " | Zero flag: " << zero_flag << std::endl;
                 // If src1 is 0, jump unconditionally
                 if (instr.src1 == 0 || (instr.src1 == 1 && zero_flag)) {
                     pc = instr.dst;
                 }
-            }
+            
             break;
 
         case Opcode::MUL:
-            if (instr.dst < registers.size() && instr.src1 < registers.size() && instr.src2 < registers.size())
-                registers[instr.dst] = registers[instr.src1] * registers[instr.src2];
+            if (instr.dst < registers.size() && instr.src1 < registers.size() && instr.src2 < registers.size()){
+                    registers[instr.dst] = registers[instr.src1] * registers[instr.src2];
+                }      
             break;
 
         case Opcode::DIV:
@@ -88,6 +81,7 @@ void RiscMachine::execute(const Instruction& instr) {
                     registers[instr.dst] = registers[instr.src1] / registers[instr.src2];
                 else
                     std::cerr << "Error: Division by zero at PC=" << pc-1 << std::endl;
+                    //pc = program_memory.size(); // Halt the program by setting PC out of bounds
             }
             break;
     }
