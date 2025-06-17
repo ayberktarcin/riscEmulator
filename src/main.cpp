@@ -6,31 +6,49 @@
 #include "instruction.hpp"
 
 int main() {
-    RiscMachine machine;
+    RiscMachine machine(256 /*program*/, 256 /*data*/);
 
-    // Example: compute 5 + 7 and store result in memory[0]
-    std::vector<Instruction> program = {
-        {Opcode::LOAD, 0, 100, 0},      // R0 = memory[100] (5)
-        {Opcode::LOAD, 1, 101, 0},      // R1 = memory[101] (7)
-        {Opcode::ADD,  2, 0, 1},        // R2 = R0 + R1
-        {Opcode::STORE, 0, 2, 0},       // memory[0] = R2
-        {Opcode::HALT, 0, 0, 0}         // stop
+    // Define addresses for input and output
+    // Set memory addresses
+    uint32_t input_addr = 100;
+    uint32_t const_one_addr = 101;
+    uint32_t result_addr = 102;
+
+    // Initialize input
+    machine.setMemoryValue(input_addr, 6);        // n = 6 (compute 6!)
+    machine.setMemoryValue(const_one_addr, 1);    // constant 1
+
+    // Define factorial program
+    std::vector<Instruction> factorial_program = {
+        {Opcode::LOAD, 0, const_one_addr, 0},   // R0 = 1 (result)
+        {Opcode::LOAD, 1, input_addr, 0},       // R1 = n
+        {Opcode::LOAD, 2, const_one_addr, 0},   // R2 = 1
+
+        // loop_start
+        {Opcode::CMP, 1, 2, 0},                // if R1 == 1
+        {Opcode::JMP, 9, 1, 0},                // if ZF == 1 → skip MUL/SUB
+
+        {Opcode::MUL, 0, 0, 1},                 // result *= i
+        {Opcode::SUB, 1, 1, 2},                 // i--
+        {Opcode::JMP, 3, 0, 0},                 // jump to loop_start
+
+        {Opcode::STORE, result_addr, 0, 0},     // RAM[result_addr] = result
+        {Opcode::HALT, 0, 0, 0}
     };
 
     // Load initial memory values
     // We'll use instruction memory for both program and data
-    machine.loadProgram(program);
-
-    // Manually initialize memory[100] = 5 and memory[101] = 7
-    machine.setMemoryValue(100, 5);
-    machine.setMemoryValue(101, 7);
+    machine.loadProgram(factorial_program);
 
     // Run the program
     machine.run();
 
-    // Show result stored in memory[0]
-    uint32_t result = machine.getMemoryValue(0);
-    std::cout << "Result of 5 + 7 stored in memory[0]: " << result << std::endl;
+    // Display result
+    std::cout << "Factorial of n = "
+              << machine.getMemoryValue(input_addr)
+              << " is "
+              << machine.getMemoryValue(result_addr)
+              << std::endl;
 
     return 0;
 }

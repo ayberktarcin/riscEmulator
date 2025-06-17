@@ -3,25 +3,25 @@
 #include <iostream>
 #include <cstring>
 
-RiscMachine::RiscMachine(size_t memory_size) {
-    memory.resize(memory_size);
+RiscMachine::RiscMachine(size_t program_size, size_t data_size) {
+    program_memory.resize(program_size);
+    data_memory.resize(data_size);
 }
 
 void RiscMachine::loadProgram(const std::vector<Instruction>& program) {
-    std::copy(program.begin(), program.end(), memory.begin());
+    program_memory = program;
     pc = 0;
     zero_flag = false;
     registers.fill(0);
 }
-
 void RiscMachine::run() {
-    while (pc < memory.size()) {
-        Instruction instr = memory[pc];
+    while (pc < program_memory.size()) {
+        Instruction instr = program_memory[pc];
         pc++;
         execute(instr);
-
-        if (instr.opcode == Opcode::HALT)
-            break;
+        std::cout << "Instruction executed: " << static_cast<int>(instr.opcode) 
+             << " | PC: " << pc - 1 << std::endl;
+        if (instr.opcode == Opcode::HALT) break;
     }
 }
 
@@ -34,19 +34,16 @@ void RiscMachine::reset() {
 void RiscMachine::execute(const Instruction& instr) {
     switch (instr.opcode) {
         case Opcode::HALT:
-            // nothing needed, loop will break
             break;
 
         case Opcode::LOAD:
-            // dst = memory[src1]
-            if (instr.src1 < memory.size() && instr.dst < registers.size())
-                registers[instr.dst] = reinterpret_cast<uint32_t&>(memory[instr.src1]);
+            if (instr.dst < registers.size() && instr.src1 < data_memory.size())
+                registers[instr.dst] = data_memory[instr.src1];
             break;
 
         case Opcode::STORE:
-            // memory[dst] = registers[src1]
-            if (instr.dst < memory.size() && instr.src1 < registers.size())
-                reinterpret_cast<uint32_t&>(memory[instr.dst]) = registers[instr.src1];
+            if (instr.dst < data_memory.size() && instr.src1 < registers.size())
+                data_memory[instr.dst] = registers[instr.src1];
             break;
 
         case Opcode::ADD:
@@ -60,35 +57,49 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::CMP:
-            if (instr.src1 < registers.size() && instr.src2 < registers.size())
+            if (instr.src1 < registers.size() && instr.src2 < registers.size()) {
+                std::cout << "CMP: R" << instr.src1 << " = " << registers[instr.src1]
+                        << ", R" << instr.src2 << " = " << registers[instr.src2] << std::endl;
                 zero_flag = (registers[instr.src1] == registers[instr.src2]);
+            }
             break;
 
         case Opcode::JMP:
-            if (instr.dst < memory.size()) {
+            if (instr.dst < registers.size()) {
+                // src1 == 0 → unconditional jump
+                // src1 == 1 → jump if zero_flag
+                std::cout << "Jumping to address: " << instr.dst << std::endl;
+                std::cout << instr.src1 << " | Zero flag: " << zero_flag << std::endl;
+                // If src1 is 0, jump unconditionally
                 if (instr.src1 == 0 || (instr.src1 == 1 && zero_flag)) {
                     pc = instr.dst;
                 }
             }
             break;
+
+        case Opcode::MUL:
+            if (instr.dst < registers.size() && instr.src1 < registers.size() && instr.src2 < registers.size())
+                registers[instr.dst] = registers[instr.src1] * registers[instr.src2];
+            break;
+
+        case Opcode::DIV:
+            if (instr.dst < registers.size() && instr.src1 < registers.size() && instr.src2 < registers.size()) {
+                if (registers[instr.src2] != 0)
+                    registers[instr.dst] = registers[instr.src1] / registers[instr.src2];
+                else
+                    std::cerr << "Error: Division by zero at PC=" << pc-1 << std::endl;
+            }
+            break;
     }
 }
 
-
 void RiscMachine::setMemoryValue(uint32_t address, uint32_t value) {
-    if (address < memory.size()) {
-        // Store raw value as instruction-shaped memory
-        Instruction instr;
-        std::memcpy(&instr, &value, sizeof(uint32_t));
-        memory[address] = instr;
-    }
+    if (address < data_memory.size())
+        data_memory[address] = value;
 }
 
 uint32_t RiscMachine::getMemoryValue(uint32_t address) const {
-    if (address < memory.size()) {
-        uint32_t value;
-        std::memcpy(&value, &memory[address], sizeof(uint32_t));
-        return value;
-    }
+    if (address < data_memory.size())
+        return data_memory[address];
     return 0;
 }

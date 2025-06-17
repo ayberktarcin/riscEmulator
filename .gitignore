@@ -1,5 +1,5 @@
 #Ignore everything in the build folder
 build/*
 
-# But keep the RiscEmulator foe execuition
+# But keep the RiscEmulator for execuition
 !build/RiscEmulator
