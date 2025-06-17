@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tarcin/Documents/Riverlane/riscEmulator
+CMAKE_SOURCE_DIR = /home/embedlinux/Documents/ayberk/riscEmulator
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tarcin/Documents/Riverlane/riscEmulator/build
+CMAKE_BINARY_DIR = /home/embedlinux/Documents/ayberk/riscEmulator/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/RiscEmulator.dir/clean
 CMakeFiles/RiscEmulator.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RiscEmulator.dir/build.make CMakeFiles/RiscEmulator.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/RiscEmulator.dir/build.make CMakeFiles/RiscEmulator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles --progress-num=1,2,3 "Built target RiscEmulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles --progress-num=1,2,3 "Built target RiscEmulator"
 .PHONY : CMakeFiles/RiscEmulator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/RiscEmulator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/RiscEmulator.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles 0
 .PHONY : CMakeFiles/RiscEmulator.dir/rule
 
 # Convenience name for target.

@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/tarcin/Documents/Riverlane/riscEmulator/src/machine.cpp" "CMakeFiles/RiscEmulator.dir/src/machine.cpp.o" "gcc" "CMakeFiles/RiscEmulator.dir/src/machine.cpp.o.d"
-  "/home/tarcin/Documents/Riverlane/riscEmulator/src/main.cpp" "CMakeFiles/RiscEmulator.dir/src/main.cpp.o" "gcc" "CMakeFiles/RiscEmulator.dir/src/main.cpp.o.d"
+  "/home/embedlinux/Documents/ayberk/riscEmulator/src/machine.cpp" "CMakeFiles/RiscEmulator.dir/src/machine.cpp.o" "gcc" "CMakeFiles/RiscEmulator.dir/src/machine.cpp.o.d"
+  "/home/embedlinux/Documents/ayberk/riscEmulator/src/main.cpp" "CMakeFiles/RiscEmulator.dir/src/main.cpp.o" "gcc" "CMakeFiles/RiscEmulator.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

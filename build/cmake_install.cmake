@@ -1,4 +1,4 @@
-# Install script for directory: /home/tarcin/Documents/Riverlane/riscEmulator
+# Install script for directory: /home/embedlinux/Documents/ayberk/riscEmulator
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/tarcin/Documents/Riverlane/riscEmulator/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/embedlinux/Documents/ayberk/riscEmulator/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

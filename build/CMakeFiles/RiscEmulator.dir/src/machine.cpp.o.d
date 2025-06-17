@@ -1,8 +1,8 @@
 CMakeFiles/RiscEmulator.dir/src/machine.cpp.o: \
- /home/tarcin/Documents/Riverlane/riscEmulator/src/machine.cpp \
+ /home/embedlinux/Documents/ayberk/riscEmulator/src/machine.cpp \
  /usr/include/stdc-predef.h \
- /home/tarcin/Documents/Riverlane/riscEmulator/src/machine.hpp \
- /home/tarcin/Documents/Riverlane/riscEmulator/src/instruction.hpp \
+ /home/embedlinux/Documents/ayberk/riscEmulator/src/machine.hpp \
+ /home/embedlinux/Documents/ayberk/riscEmulator/src/instruction.hpp \
  /usr/include/c++/13/cstdint \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

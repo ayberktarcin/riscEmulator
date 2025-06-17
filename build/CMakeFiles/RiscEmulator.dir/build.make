@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tarcin/Documents/Riverlane/riscEmulator
+CMAKE_SOURCE_DIR = /home/embedlinux/Documents/ayberk/riscEmulator
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tarcin/Documents/Riverlane/riscEmulator/build
+CMAKE_BINARY_DIR = /home/embedlinux/Documents/ayberk/riscEmulator/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/RiscEmulator.dir/depend.make
@@ -70,32 +70,32 @@ include CMakeFiles/RiscEmulator.dir/progress.make
 include CMakeFiles/RiscEmulator.dir/flags.make
 
 CMakeFiles/RiscEmulator.dir/src/main.cpp.o: CMakeFiles/RiscEmulator.dir/flags.make
-CMakeFiles/RiscEmulator.dir/src/main.cpp.o: /home/tarcin/Documents/Riverlane/riscEmulator/src/main.cpp
+CMakeFiles/RiscEmulator.dir/src/main.cpp.o: /home/embedlinux/Documents/ayberk/riscEmulator/src/main.cpp
 CMakeFiles/RiscEmulator.dir/src/main.cpp.o: CMakeFiles/RiscEmulator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/RiscEmulator.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RiscEmulator.dir/src/main.cpp.o -MF CMakeFiles/RiscEmulator.dir/src/main.cpp.o.d -o CMakeFiles/RiscEmulator.dir/src/main.cpp.o -c /home/tarcin/Documents/Riverlane/riscEmulator/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/RiscEmulator.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RiscEmulator.dir/src/main.cpp.o -MF CMakeFiles/RiscEmulator.dir/src/main.cpp.o.d -o CMakeFiles/RiscEmulator.dir/src/main.cpp.o -c /home/embedlinux/Documents/ayberk/riscEmulator/src/main.cpp
 
 CMakeFiles/RiscEmulator.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RiscEmulator.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tarcin/Documents/Riverlane/riscEmulator/src/main.cpp > CMakeFiles/RiscEmulator.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/embedlinux/Documents/ayberk/riscEmulator/src/main.cpp > CMakeFiles/RiscEmulator.dir/src/main.cpp.i
 
 CMakeFiles/RiscEmulator.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RiscEmulator.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tarcin/Documents/Riverlane/riscEmulator/src/main.cpp -o CMakeFiles/RiscEmulator.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/embedlinux/Documents/ayberk/riscEmulator/src/main.cpp -o CMakeFiles/RiscEmulator.dir/src/main.cpp.s
 
 CMakeFiles/RiscEmulator.dir/src/machine.cpp.o: CMakeFiles/RiscEmulator.dir/flags.make
-CMakeFiles/RiscEmulator.dir/src/machine.cpp.o: /home/tarcin/Documents/Riverlane/riscEmulator/src/machine.cpp
+CMakeFiles/RiscEmulator.dir/src/machine.cpp.o: /home/embedlinux/Documents/ayberk/riscEmulator/src/machine.cpp
 CMakeFiles/RiscEmulator.dir/src/machine.cpp.o: CMakeFiles/RiscEmulator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/RiscEmulator.dir/src/machine.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RiscEmulator.dir/src/machine.cpp.o -MF CMakeFiles/RiscEmulator.dir/src/machine.cpp.o.d -o CMakeFiles/RiscEmulator.dir/src/machine.cpp.o -c /home/tarcin/Documents/Riverlane/riscEmulator/src/machine.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/RiscEmulator.dir/src/machine.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/RiscEmulator.dir/src/machine.cpp.o -MF CMakeFiles/RiscEmulator.dir/src/machine.cpp.o.d -o CMakeFiles/RiscEmulator.dir/src/machine.cpp.o -c /home/embedlinux/Documents/ayberk/riscEmulator/src/machine.cpp
 
 CMakeFiles/RiscEmulator.dir/src/machine.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/RiscEmulator.dir/src/machine.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tarcin/Documents/Riverlane/riscEmulator/src/machine.cpp > CMakeFiles/RiscEmulator.dir/src/machine.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/embedlinux/Documents/ayberk/riscEmulator/src/machine.cpp > CMakeFiles/RiscEmulator.dir/src/machine.cpp.i
 
 CMakeFiles/RiscEmulator.dir/src/machine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/RiscEmulator.dir/src/machine.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tarcin/Documents/Riverlane/riscEmulator/src/machine.cpp -o CMakeFiles/RiscEmulator.dir/src/machine.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/embedlinux/Documents/ayberk/riscEmulator/src/machine.cpp -o CMakeFiles/RiscEmulator.dir/src/machine.cpp.s
 
 # Object files for target RiscEmulator
 RiscEmulator_OBJECTS = \
@@ -109,7 +109,7 @@ RiscEmulator: CMakeFiles/RiscEmulator.dir/src/main.cpp.o
 RiscEmulator: CMakeFiles/RiscEmulator.dir/src/machine.cpp.o
 RiscEmulator: CMakeFiles/RiscEmulator.dir/build.make
 RiscEmulator: CMakeFiles/RiscEmulator.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable RiscEmulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable RiscEmulator"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RiscEmulator.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -121,6 +121,6 @@ CMakeFiles/RiscEmulator.dir/clean:
 .PHONY : CMakeFiles/RiscEmulator.dir/clean
 
 CMakeFiles/RiscEmulator.dir/depend:
-	cd /home/tarcin/Documents/Riverlane/riscEmulator/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tarcin/Documents/Riverlane/riscEmulator /home/tarcin/Documents/Riverlane/riscEmulator /home/tarcin/Documents/Riverlane/riscEmulator/build /home/tarcin/Documents/Riverlane/riscEmulator/build /home/tarcin/Documents/Riverlane/riscEmulator/build/CMakeFiles/RiscEmulator.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/embedlinux/Documents/ayberk/riscEmulator/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/embedlinux/Documents/ayberk/riscEmulator /home/embedlinux/Documents/ayberk/riscEmulator /home/embedlinux/Documents/ayberk/riscEmulator/build /home/embedlinux/Documents/ayberk/riscEmulator/build /home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles/RiscEmulator.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/RiscEmulator.dir/depend
 
