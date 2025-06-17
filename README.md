@@ -18,6 +18,12 @@ A simple RISC machine simulator written in modern C++ (C++17). This project emul
 ---
 
 ## 🛠️ Build Instructions
+```bash
+mkdir build && cd build
+cmake ..
+make
+./RiscEmulator
+```
 
 ### 🔧 Prerequisites
 
