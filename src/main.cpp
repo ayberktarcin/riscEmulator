@@ -50,5 +50,9 @@ int main() {
               << machine.getMemoryValue(result_addr)
               << std::endl;
 
+    // Reset the machine for future use
+    machine.reset();
+    std::cout << "Machine reset. Ready for next operation." << std::endl;
+
     return 0;
 }

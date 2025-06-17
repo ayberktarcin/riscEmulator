@@ -7,6 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add source files
 add_executable(RiscEmulator
-    src/main.cpp
     src/machine.cpp
+    src/machine_test.cpp    #src/main.cpp
 )
