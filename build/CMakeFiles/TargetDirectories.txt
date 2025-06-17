@@ -1,3 +1,0 @@
-/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles/RiscEmulator.dir
-/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles/edit_cache.dir
-/home/embedlinux/Documents/ayberk/riscEmulator/build/CMakeFiles/rebuild_cache.dir
