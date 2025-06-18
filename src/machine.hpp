@@ -96,7 +96,7 @@ private:
      */
     void execute(const Instruction& instr);
 
-    std::array<uint32_t, 8> data_registers{};  // R0–R7
+    std::array<uint32_t, 16> data_registers{};  // R0–R15
     StatusRegister status_register{};
 
     uint32_t pc = 0;  // program counter

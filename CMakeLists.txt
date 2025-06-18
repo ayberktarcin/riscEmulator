@@ -10,11 +10,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_executable(RiscEmulator
     src/machine.cpp
     src/main.cpp
+    src/algorithms.cpp
 )
 
 add_executable(MachineTest
     tests/machine_gtest.cpp
     src/machine.cpp
+    src/algorithms.cpp
 )
 enable_testing()
 target_link_libraries(MachineTest gtest gtest_main pthread)

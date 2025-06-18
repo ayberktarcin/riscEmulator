@@ -1,0 +1,9 @@
+// algorithm.hpp
+#pragma once
+
+#include <vector>
+#include "instruction.hpp"
+
+// Returns a vector of instructions to compute factorial of n
+std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t const_one_addr, uint32_t result_addr);
+std::vector<Instruction> createSumListProgram(uint32_t input_addr, uint32_t const_one_addr, uint32_t result_addr);
