@@ -35,8 +35,11 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::LOAD:
-            if (instr.dst < data_registers.size() && instr.src1 < data_memory.size())
+            if (instr.dst < data_registers.size() && instr.src1 < data_memory.size()){
                 data_registers[instr.dst] = data_memory[instr.src1];
+                std::cout << "Loading R" << instr.dst << " with value from memory address " 
+                          << instr.src1 << " - " << data_memory[instr.src1] << std::endl;
+            }
             break;
 
         case Opcode::STORE:
@@ -48,6 +51,9 @@ void RiscMachine::execute(const Instruction& instr) {
         case Opcode::ADD:
             if (instr.dst < data_registers.size() && instr.src1 < data_registers.size() && instr.src2 < data_registers.size())
                 data_registers[instr.dst] = data_registers[instr.src1] + data_registers[instr.src2];
+                std::cout << "Adding R" << instr.src1<< " - " << data_registers[instr.src1]  <<" and R" 
+                         << instr.src2 << " - " << data_registers[instr.src2] <<" into R" << instr.dst << std::endl;
+ 
             break;
 
         case Opcode::SUB:
@@ -68,6 +74,7 @@ void RiscMachine::execute(const Instruction& instr) {
             if (instr.dst < program_memory.size()) {
                 if (instr.src1 == 0 || (instr.src1 == 1 && status_register.ZF)) {
                     pc = instr.dst;
+                    std::cout << "Jumping to address " << instr.dst << " at PC=" << pc-1 << std::endl;
                 }
             }else{
                 std::cerr << "Error: Jump to out of bounds address at PC=" << pc-1 << std::endl;
@@ -91,6 +98,12 @@ void RiscMachine::execute(const Instruction& instr) {
                     status_register.DF = 1; // Set division by zero flag
                     //pc = program_memory.size(); // Halt the program by setting PC out of bounds
                 }
+            }
+            break;
+        
+        case Opcode::MOV:
+            if (instr.dst < data_registers.size() && instr.src1 < data_registers.size()) {
+                data_registers[instr.dst] = data_registers[instr.src1];
             }
             break;
     }

@@ -20,7 +20,8 @@ enum class Opcode {
     CMP,    /**< Compare two data_registers and set flags */
     JMP,    /**< Jump to specified address */
     MUL,    /**< Multiply two data_registers and store result in destination */
-    DIV     /**< Divide two data_registers and store result in destination */
+    DIV,     /**< Divide two data_registers and store result in destination */
+    MOV,    /**< Move value from one register to another */
 };
 
 /**

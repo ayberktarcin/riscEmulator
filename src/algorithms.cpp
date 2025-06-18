@@ -22,26 +22,25 @@ std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t co
 }
 
 
-std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t length_addr, uint32_t result_addr) {
+std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t length_addr, uint32_t result_addr, uint32_t const_one_addr) {
     return {
-        {Opcode::LOAD, 0, length_addr, 0},      // R0 = array length (counter)
-        {Opcode::LOAD, 1, array_addr, 0},       // R1 = current array element (initially array[0])
-        {Opcode::LOAD, 4, length_addr, 0},      // R4 = length (used to calculate address)
-        {Opcode::LOAD, 2, result_addr, 0},      // R2 = sum
-        {Opcode::LOAD, 3, array_addr, 0},       // R3 = array pointer (starting addr)
+        {Opcode::LOAD, 0, array_addr, 0},      // R0 = array address
+        {Opcode::LOAD, 1, length_addr, 0},      // counter = length
+        {Opcode::LOAD, 2, result_addr, 0},       // R3 = result pointer
+        {Opcode::LOAD, 3, const_one_addr, 0},   // R5 = 1 (for pointer++ and counter--)
 
-        // loop_start @ pc = 5
-        {Opcode::CMP, 0, 3, 0},                 // while counter > 0
-        {Opcode::JMP, 11, 1, 0},                // if ZF (i.e., counter == 0), exit
+        // loop_start @ pc = 4
+        {Opcode::CMP, 0, 1, 3},                 // if counter == 1
+        {Opcode::JMP, 11, 1, 0},                // if ZF, jump to end
 
-        {Opcode::LOAD, 1, 3, 0},                // R1 = RAM[array_ptr]
-        {Opcode::ADD, 2, 2, 1},                 // sum += R1
-        {Opcode::ADD, 3, 3, 5},                 // array_ptr++ (increment address)
-        {Opcode::SUB, 0, 0, 5},                 // counter--
+        {Opcode::LOAD, 4, 0, 0},                 // R4 = RAM[R0]
+        {Opcode::ADD, 2, 2, 4},                 // sum += R4
+        {Opcode::ADD, 0, 0, 3},                 // array_ptr++
+        {Opcode::SUB, 1, 1, 3},                 // counter--
 
-        {Opcode::JMP, 5, 0, 0},                 // jump to loop_start
+        {Opcode::JMP, 4, 0, 0},                 // loop
 
-        {Opcode::STORE, result_addr, 2, 0},     // store result
+        {Opcode::STORE, result_addr, 2, 0},     // store sum
         {Opcode::HALT, 0, 0, 0}
     };
 }
