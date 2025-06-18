@@ -8,7 +8,7 @@ A simple RISC machine simulator written in modern C++ (C++17). This project emul
 
 ## 🚀 Features
 
-- 8 general-purpose registers (R0–R7)
+- 8 general-purpose data_registers (R0–R7)
 - Unified memory space (default: 1024 instructions/words)
 - Simple instruction set
 - Zero flag support for conditional jumps

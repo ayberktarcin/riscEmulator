@@ -113,8 +113,7 @@ TEST_F(RiscMachineTest, DIVbyZero) {
     };
     machine.loadProgram(program);
     machine.run();
-    // Expect RAM[102] to be 0 or unchanged depending on how division-by-zero is handled
-    EXPECT_EQ(machine.getMemoryValue(102), 0);
+    EXPECT_EQ(machine.getStatusRegister().DF, 1); // Division by zero flag should be set
 }
 
 TEST_F(RiscMachineTest, JMPUnconditional) {

@@ -1,5 +1,6 @@
 #Ignore everything in the build folder
 build/*
 
-# But keep the RiscEmulator for execuition
+# But keep the main.exe & test.exe for execuition
 !build/RiscEmulator
+!build/MachineTest
