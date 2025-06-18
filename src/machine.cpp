@@ -62,11 +62,14 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::JMP:
-                // If src1 is 0, jump unconditionally
+            if (instr.dst < program_memory.size()) {
                 if (instr.src1 == 0 || (instr.src1 == 1 && zero_flag)) {
                     pc = instr.dst;
                 }
-            
+            }else{
+                std::cerr << "Error: Jump to out of bounds address at PC=" << pc-1 << std::endl;
+                //pc = program_memory.size(); // Halt the program by setting PC out of bounds   
+            }
             break;
 
         case Opcode::MUL:

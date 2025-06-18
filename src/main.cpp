@@ -31,7 +31,8 @@ int main() {
         {Opcode::MUL, 0, 0, 1},                 // result *= i
         {Opcode::SUB, 1, 1, 2},                 // i--
         {Opcode::JMP, 3, 0, 0},                 // jump to loop_start
-
+        
+        // loop_end
         {Opcode::STORE, result_addr, 0, 0},     // RAM[result_addr] = result
         {Opcode::HALT, 0, 0, 0}
     };
