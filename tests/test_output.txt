@@ -1,0 +1,25 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 8 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 8 tests from RiscMachineTest
+[ RUN      ] RiscMachineTest.LOADandSTORE
+[       OK ] RiscMachineTest.LOADandSTORE (0 ms)
+[ RUN      ] RiscMachineTest.ADD
+[       OK ] RiscMachineTest.ADD (0 ms)
+[ RUN      ] RiscMachineTest.SUB
+[       OK ] RiscMachineTest.SUB (0 ms)
+[ RUN      ] RiscMachineTest.MUL
+[       OK ] RiscMachineTest.MUL (0 ms)
+[ RUN      ] RiscMachineTest.DIV
+[       OK ] RiscMachineTest.DIV (0 ms)
+[ RUN      ] RiscMachineTest.CMPandJMP
+[       OK ] RiscMachineTest.CMPandJMP (0 ms)
+[ RUN      ] RiscMachineTest.DIVbyZero
+[       OK ] RiscMachineTest.DIVbyZero (0 ms)
+[ RUN      ] RiscMachineTest.JMPUnconditional
+[       OK ] RiscMachineTest.JMPUnconditional (0 ms)
+[----------] 8 tests from RiscMachineTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 8 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 8 tests.
