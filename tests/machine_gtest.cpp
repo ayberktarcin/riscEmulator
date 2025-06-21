@@ -172,3 +172,16 @@ TEST_F(RiscMachineTest, FactorialProgramWorks) {
 
     EXPECT_EQ(machine.getMemoryValue(result_addr), 720);;
 }
+
+TEST_F(RiscMachineTest, FibProgramWorks) {
+    RiscMachine machine(256 /*program*/, 256 /*data*/);
+
+    machine.setMemoryValue(100, 10);     // n = 6
+    machine.setMemoryValue(101, 0);     // result add r
+
+    std::vector<Instruction> program = createFibonacciProgram(100, 101);
+    machine.loadProgram(program);
+    machine.run();
+
+    EXPECT_EQ(machine.getMemoryValue(101), 55);;
+}
