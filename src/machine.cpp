@@ -37,50 +37,55 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::LOAD:
-        // ─────────────────────────────────────────────────────────────────────────────
-        // LOAD Instruction: Supports both direct and indirect memory access
+      // ─────────────────────────────────────────────────────────────────────────────
+        // LOAD Instruction: Supports direct, indirect, and immediate value loading
         //
-        // - This instruction loads a value from RAM into a register.
+        // - This instruction loads a value into a register (R[dst]).
         //
-        // - Two modes are supported:
+        // - Three addressing modes are supported via the `src2` field:
+        //
         //   • Direct Mode   (src2 == 0): src1 is treated as an immediate RAM address
-        //     Example:
-        //       {Opcode::LOAD, 4, 100, 0} 
-        //       → R4 = RAM[100]
+        //       Example:
+        //         {Opcode::LOAD, 4, 100, 0}
+        //         → R4 = RAM[100]
         //
-        //   • Indirect Mode (src2 == 1): src1 is a register holding the memory address
-        //     Example:
-        //       R0 = 100;  // R0 holds the address
-        //       {Opcode::LOAD, 4, 0, 1} 
-        //       → R4 = RAM[R0]
+        //   • Indirect Mode (src2 == 1): src1 is a register index holding a RAM address
+        //       Example:
+        //         R0 = 100;  // R0 holds address
+        //         {Opcode::LOAD, 4, 0, 1}
+        //         → R4 = RAM[R0]
         //
-        // - This makes it possible to use registers as pointers — enabling array access,
-        //   dynamic memory traversal, and implementing pointer-style logic.
+        //   • Immediate Mode (src2 == 2): src1 is treated as a literal value
+        //       Example:
+        //         {Opcode::LOAD, 4, 42, 2}
+        //         → R4 = 42
         //
-        // - The logic below determines the correct address to load from depending on mode.
+        // - This supports both traditional memory access and immediate constant assignment.
+        // - Enables pointer logic and constant register initialization in programs.
         // ─────────────────────────────────────────────────────────────────────────────
             if (instr.dst < data_registers.size()) {
-                uint32_t addr;
+                uint32_t value = 0;
         
                 if (instr.src2 == 0 && instr.src1 < data_memory.size()) {
-                    addr = instr.src1; // direct mode
+                    value = data_memory[instr.src1]; // direct mode
                 } else if (instr.src2 == 1 && instr.src1 < data_registers.size()) {
-                    addr = data_registers[instr.src1]; // indirect mode
-                } else {
+                    value = data_memory[data_registers[instr.src1]]; // indirect mode
+                } else if (instr.src2 == 2) {
+                    // Immediate value
+                    value = instr.src1;
+                }else {
                     break; // invalid
                 }
-        
-                if (addr < data_memory.size()) {
-                    data_registers[instr.dst] = data_memory[addr];
-                    std::cout << "Loading R" << instr.dst << " with value from memory address " 
-                    << addr << " - " << data_memory[addr] << std::endl;
-                }
+                data_registers[instr.dst] = value;
+                std::cout << "Loading R" << instr.dst << " value "<< value << std::endl;
             }
             break;
 
         case Opcode::STORE:
             if (instr.dst < data_memory.size() && instr.src1 < data_registers.size()){
                 data_memory[instr.dst] = data_registers[instr.src1];
+                std::cout << "Storing R" << instr.src1 << " value " << data_registers[instr.src1] 
+                          << " into RAM[" << instr.dst << "]" << std::endl;
             }
             break;
 
