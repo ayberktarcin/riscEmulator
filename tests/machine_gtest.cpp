@@ -139,14 +139,13 @@ TEST_F(RiscMachineTest, SumArrayProgramWorks) {
     machine.setMemoryValue(100, 200);  // array pointer
     machine.setMemoryValue(101, 4);    // array length
     machine.setMemoryValue(103, 0);    // result address (initial value)
-    machine.setMemoryValue(104, 1);    // constant one
 
     machine.setMemoryValue(200, 10);
     machine.setMemoryValue(201, 20);
     machine.setMemoryValue(202, 30);
     machine.setMemoryValue(203, 40);
 
-    std::vector<Instruction> program = createSumListProgram(100, 101, 103, 104);
+    std::vector<Instruction> program = createSumListProgram(100, 101, 103);
     machine.loadProgram(program);
     machine.run();
 
@@ -159,14 +158,12 @@ TEST_F(RiscMachineTest, FactorialProgramWorks) {
     // Define addresses for input and output
     // Set memory addresses
     uint32_t input_addr = 100;
-    uint32_t const_one_addr = 101;
-    uint32_t result_addr = 102;
+    uint32_t result_addr = 101;
 
     // Initialize input
     machine.setMemoryValue(input_addr, 6);        // n = 6 (compute 6!)
-    machine.setMemoryValue(const_one_addr, 1);    // constant 1
 
-    std::vector<Instruction> program = createFactorialProgram(input_addr, const_one_addr, result_addr);
+    std::vector<Instruction> program = createFactorialProgram(input_addr, result_addr);
     machine.loadProgram(program);
     machine.run();
 

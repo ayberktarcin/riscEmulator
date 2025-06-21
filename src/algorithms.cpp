@@ -1,11 +1,11 @@
 // algorithm.cpp
 #include "algorithms.hpp"
 
-std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t const_one_addr, uint32_t result_addr) {
+std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t result_addr) {
     return {
-        {Opcode::LOAD, 0, const_one_addr, 0},   // R0 = 1 (result)
+        {Opcode::LOAD, 0, 1, 2},                // R0 = 1 (result)
         {Opcode::LOAD, 1, input_addr, 0},       // R1 = n
-        {Opcode::LOAD, 2, const_one_addr, 0},   // R2 = 1
+        {Opcode::LOAD, 2, 1, 2},                // R2 = 1
 
         // loop_start
         {Opcode::CMP, 0, 1, 2},                 // if R1 == 1
@@ -22,12 +22,12 @@ std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t co
 }
 
 
-std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t length_addr, uint32_t result_addr, uint32_t const_one_addr) {
+std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t length_addr, uint32_t result_addr) {
     return {
         {Opcode::LOAD, 0, array_addr, 0},      // R0 = array address
-        {Opcode::LOAD, 1, length_addr, 0},      // counter = length
-        {Opcode::LOAD, 2, result_addr, 0},       // R3 = result pointer
-        {Opcode::LOAD, 3, const_one_addr, 0},   // R5 = 1 (for pointer++ and counter--)
+        {Opcode::LOAD, 1, length_addr, 0},     // counter = length
+        {Opcode::LOAD, 2, result_addr, 0},     // R3 = result pointer
+        {Opcode::LOAD, 3, 1, 2},               // R5 = 1 (for pointer++ and counter--)
         
         // loop_start @ pc = 4
         {Opcode::LOAD, 4, 0, 1},              // R4 = RAM[R0]
