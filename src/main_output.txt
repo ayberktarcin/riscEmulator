@@ -1,0 +1,10 @@
+🔷 Starting Fibonacci Program (n = 6)
+✅ Fibonacci(6) = 21
+
+🔷 Starting Factorial Program (n = 5)
+✅ Factorial(5) = 120
+
+🔷 Starting List Sum Program [10, 20, 30, 40]
+✅ Sum of list = 100
+
+🎉 All programs completed successfully.
