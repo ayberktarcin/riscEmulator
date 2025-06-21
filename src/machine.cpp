@@ -32,9 +32,33 @@ void RiscMachine::reset() {
 void RiscMachine::execute(const Instruction& instr) {
     switch (instr.opcode) {
         case Opcode::HALT:
+            std::cout << "HALT instruction encountered. Stopping execution." << std::endl;
+            pc = program_memory.size();  // Halt the program by setting PC out of bounds
             break;
 
         case Opcode::LOAD:
+        // ─────────────────────────────────────────────────────────────────────────────
+        // LOAD Instruction: Supports both direct and indirect memory access
+        //
+        // - This instruction loads a value from RAM into a register.
+        //
+        // - Two modes are supported:
+        //   • Direct Mode   (src2 == 0): src1 is treated as an immediate RAM address
+        //     Example:
+        //       {Opcode::LOAD, 4, 100, 0} 
+        //       → R4 = RAM[100]
+        //
+        //   • Indirect Mode (src2 == 1): src1 is a register holding the memory address
+        //     Example:
+        //       R0 = 100;  // R0 holds the address
+        //       {Opcode::LOAD, 4, 0, 1} 
+        //       → R4 = RAM[R0]
+        //
+        // - This makes it possible to use registers as pointers — enabling array access,
+        //   dynamic memory traversal, and implementing pointer-style logic.
+        //
+        // - The logic below determines the correct address to load from depending on mode.
+        // ─────────────────────────────────────────────────────────────────────────────
             if (instr.dst < data_registers.size()) {
                 uint32_t addr;
         
