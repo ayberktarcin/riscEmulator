@@ -35,10 +35,22 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::LOAD:
-            if (instr.dst < data_registers.size() && instr.src1 < data_memory.size()){
-                data_registers[instr.dst] = data_memory[instr.src1];
-                std::cout << "Loading R" << instr.dst << " with value from memory address " 
-                          << instr.src1 << " - " << data_memory[instr.src1] << std::endl;
+            if (instr.dst < data_registers.size()) {
+                uint32_t addr;
+        
+                if (instr.src2 == 0 && instr.src1 < data_memory.size()) {
+                    addr = instr.src1; // direct mode
+                } else if (instr.src2 == 1 && instr.src1 < data_registers.size()) {
+                    addr = data_registers[instr.src1]; // indirect mode
+                } else {
+                    break; // invalid
+                }
+        
+                if (addr < data_memory.size()) {
+                    data_registers[instr.dst] = data_memory[addr];
+                    std::cout << "Loading R" << instr.dst << " with value from memory address " 
+                    << addr << " - " << data_memory[addr] << std::endl;
+                }
             }
             break;
 
