@@ -11,13 +11,14 @@ int main() {
 
     // Example array: [10, 20, 30] at RAM[200, 201, 202]
     machine.setMemoryValue(100, 200);   // pointer to array
-    machine.setMemoryValue(101, 3);    // length
+    machine.setMemoryValue(101, 4);    // length
     machine.setMemoryValue(103, 0);    // result address
     machine.setMemoryValue(104, 1);    // constant
 
     machine.setMemoryValue(200, 10);
     machine.setMemoryValue(201, 20);
     machine.setMemoryValue(202, 30);
+    machine.setMemoryValue(203, 40);
 
     // Define sum list program
     std::vector<Instruction> program = createSumListProgram(100, 101, 103, 104);
