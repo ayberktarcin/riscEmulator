@@ -23,6 +23,8 @@ mkdir build && cd build
 cmake ..
 make
 ./RiscEmulator
+./MachineTest
+gtest
 ```
 
 ### 🔧 Prerequisites
@@ -31,4 +33,13 @@ Ensure the following packages are installed:
 
 ```bash
 sudo apt update
-sudo apt install build-essential cmake
+sudo apt install build-essential cmake libgtest-dev
+```
+🧪 Note: libgtest-dev only installs the source files. You need to build the GoogleTest libraries manually:
+```bash
+cd /usr/src/gtest
+sudo cmake .
+sudo make
+sudo cp *.a /usr/lib
+```
+This enables your CMake project to link against gtest and gtest_main properly.
