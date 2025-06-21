@@ -19,9 +19,6 @@ int main() {
     machine.setMemoryValue(201, 20);
     machine.setMemoryValue(202, 30);
 
-
-
-
     // Define sum list program
     std::vector<Instruction> program = createSumListProgram(100, 101, 103, 104);
 
@@ -34,7 +31,7 @@ int main() {
 
     // Display result
     std::cout << "Sum of list = "
-              << machine.getMemoryValue(350)
+              << machine.getMemoryValue(103) // Read from result_addr
               << std::endl;
 
     // Reset the machine for future use
