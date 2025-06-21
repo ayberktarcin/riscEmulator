@@ -1,5 +1,6 @@
 // src/machine.cpp
 #include "machine.hpp"
+#include "logging.hpp"
 #include <iostream>
 #include <cstring>
 
@@ -32,7 +33,7 @@ void RiscMachine::reset() {
 void RiscMachine::execute(const Instruction& instr) {
     switch (instr.opcode) {
         case Opcode::HALT:
-            std::cout << "HALT instruction encountered. Stopping execution." << std::endl;
+            LOG_INFO("HALT instruction encountered. Stopping execution.");
             pc = program_memory.size();  // Halt the program by setting PC out of bounds
             break;
 
@@ -77,23 +78,23 @@ void RiscMachine::execute(const Instruction& instr) {
                     break; // invalid
                 }
                 data_registers[instr.dst] = value;
-                std::cout << "Loading R" << instr.dst << " value "<< value << std::endl;
+                LOG_INFO("Loading R" << instr.dst << " value "<< value);
             }
             break;
 
         case Opcode::STORE:
             if (instr.dst < data_memory.size() && instr.src1 < data_registers.size()){
                 data_memory[instr.dst] = data_registers[instr.src1];
-                std::cout << "Storing R" << instr.src1 << " value " << data_registers[instr.src1] 
-                          << " into RAM[" << instr.dst << "]" << std::endl;
+                LOG_INFO("Storing R" << instr.src1 << " value " << data_registers[instr.src1] 
+                          << " into RAM[" << instr.dst << "]" );
             }
             break;
 
         case Opcode::ADD:
             if (instr.dst < data_registers.size() && instr.src1 < data_registers.size() && instr.src2 < data_registers.size())
                 data_registers[instr.dst] = data_registers[instr.src1] + data_registers[instr.src2];
-                std::cout << "Adding R" << instr.src1<< " - " << data_registers[instr.src1]  <<" and R" 
-                         << instr.src2 << " - " << data_registers[instr.src2] <<" into R" << instr.dst << std::endl;
+                LOG_INFO("Adding R" << instr.src1<< " - " << data_registers[instr.src1]  <<" and R" 
+                         << instr.src2 << " - " << data_registers[instr.src2] <<" into R" << instr.dst);
  
             break;
 
@@ -106,7 +107,7 @@ void RiscMachine::execute(const Instruction& instr) {
             if (instr.src1 < data_registers.size() && instr.src2 < data_registers.size()) {
                 status_register.ZF = (data_registers[instr.src1] == data_registers[instr.src2]) ? 1 : 0;
             }else {
-                //std::cerr << "Error: Compare instruction with invalid register indices at PC=" << pc-1 << std::endl;
+                LOG_ERROR("Error: Compare instruction with invalid register indices at PC=" << pc-1);
                 status_register.ZF = 0; // Reset ZF on error
             }
             break;
@@ -115,10 +116,10 @@ void RiscMachine::execute(const Instruction& instr) {
             if (instr.dst < program_memory.size()) {
                 if (instr.src1 == 0 || (instr.src1 == 1 && status_register.ZF)) {
                     pc = instr.dst;
-                    std::cout << "Jumping to address " << instr.dst << " at PC=" << pc-1 << std::endl;
+                    LOG_INFO("Jumping to address " << instr.dst << " at PC=" << pc-1);
                 }
             }else{
-                std::cerr << "Error: Jump to out of bounds address at PC=" << pc-1 << std::endl;
+                LOG_ERROR("Error: Jump to out of bounds address at PC=" << pc-1);
                 //pc = program_memory.size(); // Halt the program by setting PC out of bounds   
             }
             break;
@@ -135,7 +136,7 @@ void RiscMachine::execute(const Instruction& instr) {
                     data_registers[instr.dst] = data_registers[instr.src1] / data_registers[instr.src2];
                     status_register.DF = 0; // Clear division by zero flag
                 } else {
-                    std::cerr << "Error: Division by zero at PC=" << pc-1 << std::endl;
+                    LOG_ERROR("Error: Division by zero at PC=" << pc-1);
                     status_register.DF = 1; // Set division by zero flag
                     //pc = program_memory.size(); // Halt the program by setting PC out of bounds
                 }
