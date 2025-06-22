@@ -25,6 +25,17 @@ TEST_F(RiscMachineTest, LOADandSTORE) {
     EXPECT_EQ(machine.getMemoryValue(101), 42);
 }
 
+TEST_F(RiscMachineTest, LOAD_ImmediateValue) {
+    std::vector<Instruction> program = {
+        {Opcode::LOAD, 0, 123, 2},   // R0 = 123 (immediate)
+        {Opcode::STORE, 100, 0, 0},
+        {Opcode::HALT, 0, 0, 0}
+    };
+    machine.loadProgram(program);
+    machine.run();
+    EXPECT_EQ(machine.getMemoryValue(100), 123);
+}
+
 TEST_F(RiscMachineTest, ADD) {
     machine.setMemoryValue(100, 10);
     machine.setMemoryValue(101, 20);
@@ -130,6 +141,33 @@ TEST_F(RiscMachineTest, JMPUnconditional) {
     machine.loadProgram(program);
     machine.run();
     EXPECT_EQ(machine.getMemoryValue(101), 0);  // R0 was never modified
+}
+
+TEST_F(RiscMachineTest, MOV) {
+    machine.setMemoryValue(100, 99);
+    std::vector<Instruction> program = {
+        {Opcode::LOAD, 0, 100, 0},      // R0 = 99
+        {Opcode::MOV, 1, 0, 0},         // R1 = R0
+        {Opcode::STORE, 101, 1, 0},     // RAM[101] = R1
+        {Opcode::HALT, 0, 0, 0}
+    };
+    machine.loadProgram(program);
+    machine.run();
+    EXPECT_EQ(machine.getMemoryValue(101), 99);
+}
+
+TEST_F(RiscMachineTest, CHECK_FLAG_Overflow) {
+    machine.setMemoryValue(100, UINT32_MAX);
+    machine.setMemoryValue(101, 2);
+    std::vector<Instruction> program = {
+        {Opcode::LOAD, 0, 100, 0},
+        {Opcode::LOAD, 1, 101, 0},
+        {Opcode::ADD, 2, 0, 1},              // R2 = UINT32_MAX + 2 → overflow
+        {Opcode::HALT, 0, 0, 0}
+    };
+    machine.loadProgram(program);
+    machine.run();
+    EXPECT_EQ(machine.getStatusRegister().CF, 1);  // Carry should be set
 }
 
 // Factorial Test Region

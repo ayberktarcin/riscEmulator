@@ -1,9 +1,11 @@
 Running main() from ./googletest/src/gtest_main.cc
-[==========] Running 11 tests from 1 test suite.
+[==========] Running 30 tests from 4 test suites.
 [----------] Global test environment set-up.
 [----------] 11 tests from RiscMachineTest
 [ RUN      ] RiscMachineTest.LOADandSTORE
 [       OK ] RiscMachineTest.LOADandSTORE (0 ms)
+[ RUN      ] RiscMachineTest.LOAD_ImmediateValue
+[       OK ] RiscMachineTest.LOAD_ImmediateValue (0 ms)
 [ RUN      ] RiscMachineTest.ADD
 [       OK ] RiscMachineTest.ADD (0 ms)
 [ RUN      ] RiscMachineTest.SUB
@@ -18,14 +20,59 @@ Running main() from ./googletest/src/gtest_main.cc
 [       OK ] RiscMachineTest.DIVbyZero (0 ms)
 [ RUN      ] RiscMachineTest.JMPUnconditional
 [       OK ] RiscMachineTest.JMPUnconditional (0 ms)
-[ RUN      ] RiscMachineTest.SumArrayProgramWorks
-[       OK ] RiscMachineTest.SumArrayProgramWorks (0 ms)
-[ RUN      ] RiscMachineTest.FactorialProgramWorks
-[       OK ] RiscMachineTest.FactorialProgramWorks (0 ms)
-[ RUN      ] RiscMachineTest.FibProgramWorks
-[       OK ] RiscMachineTest.FibProgramWorks (0 ms)
+[ RUN      ] RiscMachineTest.MOV
+[       OK ] RiscMachineTest.MOV (0 ms)
+[ RUN      ] RiscMachineTest.CHECK_FLAG_Overflow
+[       OK ] RiscMachineTest.CHECK_FLAG_Overflow (0 ms)
 [----------] 11 tests from RiscMachineTest (0 ms total)
 
+[----------] 6 tests from FactorialTest
+[ RUN      ] FactorialTest.FactorialOf0
+[       OK ] FactorialTest.FactorialOf0 (0 ms)
+[ RUN      ] FactorialTest.FactorialOf1
+[       OK ] FactorialTest.FactorialOf1 (0 ms)
+[ RUN      ] FactorialTest.FactorialOf2
+[       OK ] FactorialTest.FactorialOf2 (0 ms)
+[ RUN      ] FactorialTest.FactorialOf5
+[       OK ] FactorialTest.FactorialOf5 (0 ms)
+[ RUN      ] FactorialTest.FactorialOf12
+[       OK ] FactorialTest.FactorialOf12 (0 ms)
+[ RUN      ] FactorialTest.FactorialOf13TriggersOverflow
+[       OK ] FactorialTest.FactorialOf13TriggersOverflow (0 ms)
+[----------] 6 tests from FactorialTest (0 ms total)
+
+[----------] 6 tests from SumListTest
+[ RUN      ] SumListTest.SumOfSmallArray
+[       OK ] SumListTest.SumOfSmallArray (0 ms)
+[ RUN      ] SumListTest.SumOfSmallArray2
+[       OK ] SumListTest.SumOfSmallArray2 (0 ms)
+[ RUN      ] SumListTest.OverflowSum
+[       OK ] SumListTest.OverflowSum (0 ms)
+[ RUN      ] SumListTest.ZeroLengthArray
+[       OK ] SumListTest.ZeroLengthArray (0 ms)
+[ RUN      ] SumListTest.AllZeroValues
+[       OK ] SumListTest.AllZeroValues (0 ms)
+[ RUN      ] SumListTest.SingleElementArray
+[       OK ] SumListTest.SingleElementArray (0 ms)
+[----------] 6 tests from SumListTest (0 ms total)
+
+[----------] 7 tests from FibonacciTest
+[ RUN      ] FibonacciTest.FibOf0
+[       OK ] FibonacciTest.FibOf0 (0 ms)
+[ RUN      ] FibonacciTest.FibOf1
+[       OK ] FibonacciTest.FibOf1 (0 ms)
+[ RUN      ] FibonacciTest.FibOf5
+[       OK ] FibonacciTest.FibOf5 (0 ms)
+[ RUN      ] FibonacciTest.FibOf6
+[       OK ] FibonacciTest.FibOf6 (0 ms)
+[ RUN      ] FibonacciTest.FibOf10
+[       OK ] FibonacciTest.FibOf10 (0 ms)
+[ RUN      ] FibonacciTest.FibOf47_NoOverflow
+[       OK ] FibonacciTest.FibOf47_NoOverflow (0 ms)
+[ RUN      ] FibonacciTest.FibOf48_Overflow
+[       OK ] FibonacciTest.FibOf48_Overflow (0 ms)
+[----------] 7 tests from FibonacciTest (0 ms total)
+
 [----------] Global test environment tear-down
-[==========] 11 tests from 1 test suite ran. (0 ms total)
-[  PASSED  ] 11 tests.
+[==========] 30 tests from 4 test suites ran. (1 ms total)
+[  PASSED  ] 30 tests.
