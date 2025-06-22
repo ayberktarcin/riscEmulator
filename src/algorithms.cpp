@@ -6,14 +6,19 @@ std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t re
         {Opcode::LOAD, 0, 1, 2},                // R0 = 1 (result)
         {Opcode::LOAD, 1, input_addr, 0},       // R1 = n
         {Opcode::LOAD, 2, 1, 2},                // R2 = 1
+        {Opcode::LOAD, 3, 0, 2},                // R3 = 0
+
+        // if n == 0 → result = 0
+        {Opcode::CMP, 0, 1, 3},                 // if R0 == R2 (0)
+        {Opcode::JMP, 11, 1, 0},                // jump to store if ZF
 
         // loop_start
         {Opcode::CMP, 0, 1, 2},                 // if R1 == 1
-        {Opcode::JMP, 8, 1, 0},                 // if ZF == 1 → skip MUL/SUB
+        {Opcode::JMP, 11, 1, 0},                 // if ZF == 1 → skip MUL/SUB
 
         {Opcode::MUL, 0, 0, 1},                 // result *= i
         {Opcode::SUB, 1, 1, 2},                 // i--
-        {Opcode::JMP, 3, 0, 0},                 // jump to loop_start
+        {Opcode::JMP, 6, 0, 0},                 // jump to loop_start
 
         // loop_end
         {Opcode::STORE, result_addr, 0, 0},     // RAM[result_addr] = result

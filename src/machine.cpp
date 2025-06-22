@@ -125,8 +125,19 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::MUL:
-            if (instr.dst < data_registers.size() && instr.src1 < data_registers.size() && instr.src2 < data_registers.size()){
-                    data_registers[instr.dst] = data_registers[instr.src1] * data_registers[instr.src2];
+            if (instr.dst < data_registers.size() && 
+                instr.src1 < data_registers.size() && 
+                instr.src2 < data_registers.size()){
+                    uint64_t result = static_cast<uint64_t>(data_registers[instr.src1]) * data_registers[instr.src2];
+                    data_registers[instr.dst] = static_cast<uint32_t>(result);
+
+                    // Set overflow flag if result doesn't fit in 32 bits
+                    status_register.OF = (result > UINT32_MAX);
+
+                    LOG_INFO( "MUL: R" << instr.dst << " = " << data_registers[instr.src1]
+                    << " * " << data_registers[instr.src2]
+                    << " = " << result
+                    << (status_register.OF ? " [OVERFLOW]" : ""));
                 }      
             break;
 

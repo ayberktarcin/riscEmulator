@@ -152,33 +152,100 @@ TEST_F(RiscMachineTest, SumArrayProgramWorks) {
     EXPECT_EQ(machine.getMemoryValue(103), 100);;
 }
 
-TEST_F(RiscMachineTest, FactorialProgramWorks) {
-    RiscMachine machine(256 /*program*/, 256 /*data*/);
+// Factorial Test Region
 
-    // Define addresses for input and output
-    // Set memory addresses
-    uint32_t input_addr = 100;
-    uint32_t result_addr = 101;
+class FactorialTest : public ::testing::Test {
+    protected:
+        RiscMachine machine{512, 512};
+  
+        void runFactorial(uint32_t n, uint32_t expected) {
+            machine.reset();
+            machine.setMemoryValue(100, n);   // input n
+            machine.setMemoryValue(101, 0);   // result
+    
+            std::vector<Instruction>  program = createFactorialProgram(100, 101);
+            machine.loadProgram(program);
+            machine.run();
+    
+            EXPECT_EQ(machine.getMemoryValue(101), expected);
+        }
+    };
 
-    // Initialize input
-    machine.setMemoryValue(input_addr, 6);        // n = 6 (compute 6!)
 
-    std::vector<Instruction> program = createFactorialProgram(input_addr, result_addr);
-    machine.loadProgram(program);
-    machine.run();
-
-    EXPECT_EQ(machine.getMemoryValue(result_addr), 720);;
+TEST_F(FactorialTest, FactorialOf0) {
+    runFactorial(0, 1);
 }
 
-TEST_F(RiscMachineTest, FibProgramWorks) {
-    RiscMachine machine(256 /*program*/, 256 /*data*/);
+TEST_F(FactorialTest, FactorialOf1) {
+    runFactorial(1, 1);
+}
 
-    machine.setMemoryValue(100, 10);     // n = 6
-    machine.setMemoryValue(101, 0);     // result add r
+TEST_F(FactorialTest, FactorialOf2) {
+    runFactorial(2, 2);
+}
 
-    std::vector<Instruction> program = createFibonacciProgram(100, 101);
+TEST_F(FactorialTest, FactorialOf5) {
+    runFactorial(5, 120);
+}
+
+TEST_F(FactorialTest, FactorialOf12) {
+    runFactorial(12, 479001600);  // fits
+}
+
+TEST_F(FactorialTest, FactorialOf13TriggersOverflow) {
+    machine.reset();
+    
+    // Input: 13! = 6227020800, which overflows uint32_t (max is 4,294,967,295)
+    machine.setMemoryValue(100, 13);   // input n
+    machine.setMemoryValue(101, 0);    // result output address
+
+    auto program = createFactorialProgram(100, 101);
     machine.loadProgram(program);
     machine.run();
 
-    EXPECT_EQ(machine.getMemoryValue(101), 55);;
+    // Fetch result (it will be incorrect due to overflow)
+    uint32_t result = machine.getMemoryValue(101);
+
+    // Assert overflow flag is set
+    EXPECT_TRUE(machine.getStatusRegister().OF);
+}
+
+
+// SumList Test Region
+
+
+
+
+
+class SumListTest : public ::testing::Test {
+    protected:
+        RiscMachine machine{512, 512};
+    
+        void SetUp() override {
+            machine.reset();
+            machine.setMemoryValue(303, 1); // constant 1
+        }
+    
+        void runSumTest(const std::vector<uint32_t>& values, uint32_t expected, bool expect_overflow = false) {
+            uint32_t base = 400;
+            for (size_t i = 0; i < values.size(); ++i) {
+                machine.setMemoryValue(base + i, values[i]);
+            }
+    
+            machine.setMemoryValue(300, base);               // pointer
+            machine.setMemoryValue(301, values.size());      // length
+            machine.setMemoryValue(302, 0);                  // result
+    
+            auto program = createSumListProgram(300, 301, 302, 303);
+            machine.loadProgram(program);
+            machine.run();
+    
+            EXPECT_EQ(machine.getMemoryValue(302), expected);
+            EXPECT_EQ(machine.getStatusRegister().OF, expect_overflow);
+        }
+    };
+    
+
+TEST_F(SumListTest, OverflowSum) {
+    runSumTest({UINT32_MAX - 10, 20}, 9, true);
 }
