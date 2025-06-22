@@ -89,6 +89,7 @@ Both the main program and test outputs are saved automatically when ./run_progra
 ├── src/                  # Emulator source files
 ├── tests/                # GoogleTest-based test suite
 ├── build/                # Build output
+├── docs/                 # Doxygen documentation output
 ├── CMakeLists.txt        # Build configuration
 ├── run_programs.sh       # Script to run everything
 └── README.md             # You're here
