@@ -65,20 +65,25 @@ std::vector<Instruction> createFibonacciProgram(uint32_t input_addr, uint32_t re
 
         // if n == 0 → result = 0
         {Opcode::CMP, 0, 2, 0},                 // if R0 == R2 (0)
-        {Opcode::JMP, 18, 1, 0},                // jump to store if ZF
+        {Opcode::JMP, 21, 1, 0},                // jump to store if ZF
 
         // if n == 1 → result = 1
         {Opcode::CMP, 0, 1, 0},                 // if R0 == R1 (1)
-        {Opcode::JMP, 16, 1, 0},                // jump to store if ZF
+        {Opcode::JMP, 19, 1, 0},                // jump to store if ZF
 
         // Loop setup
         {Opcode::LOAD, 4, 1, 2},                // R4 = R1 = R1
  
         // loop_start
         {Opcode::CMP, 0, 4, 0},                 // if i == n
-        {Opcode::JMP, 16, 1, 0},                // exit if ZF
+        {Opcode::JMP, 19, 1, 0},                // exit if ZF
 
         {Opcode::ADD, 5, 2, 3},                 // R5 = fib_prev + fib_curr
+
+        {Opcode::CHECK_FLAG, 6, 1, 0},         // check if sum overflowed
+        {Opcode::CMP, 0, 6, 1},               // if overflow
+        {Opcode::JMP, 20, 1, 0},              // if ZF, jump to end
+        
         {Opcode::MOV, 2, 3, 0},                 // fib_prev = fib_curr
         {Opcode::MOV, 3, 5, 0},                 // fib_curr = next
         
@@ -91,7 +96,7 @@ std::vector<Instruction> createFibonacciProgram(uint32_t input_addr, uint32_t re
 
         // if n = 0 store result coming from control flow
         {Opcode::MOV, 3, 2, 0},                 // R3 = R2 = 0  (fib_curr)
-        {Opcode::JMP, 16, 1, 0},                // exit if ZF
+        {Opcode::JMP, 19, 1, 0},                // exit if ZF
         {Opcode::HALT, 0, 0, 0},                
     };
 }

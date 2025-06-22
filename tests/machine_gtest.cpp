@@ -248,3 +248,59 @@ TEST_F(SumListTest, SingleElementArray) {
 
 
 // Fibonacci Test Region
+
+class FibonacciTest : public ::testing::Test {
+    protected:
+        RiscMachine machine{512, 512};
+    
+        void runFibonacci(uint32_t n, uint32_t expected_result) {
+            machine.reset();
+    
+            machine.setMemoryValue(100, n);    // input n
+            machine.setMemoryValue(101, 0);    // result address
+    
+            auto program = createFibonacciProgram(100, 101);
+            machine.loadProgram(program);
+            machine.run();
+    
+            uint32_t result = machine.getMemoryValue(101);
+            EXPECT_EQ(result, expected_result);
+        }
+    };
+
+TEST_F(FibonacciTest, FibOf0) {
+    runFibonacci(0, 0);
+}
+
+TEST_F(FibonacciTest, FibOf1) {
+    runFibonacci(1, 1);
+}
+
+TEST_F(FibonacciTest, FibOf5) {
+    runFibonacci(5, 5);
+}
+
+TEST_F(FibonacciTest, FibOf6) {
+    runFibonacci(6, 8);
+}
+
+TEST_F(FibonacciTest, FibOf10) {
+    runFibonacci(10, 55);
+}
+ 
+TEST_F(FibonacciTest, FibOf47_NoOverflow) {
+    runFibonacci(47, 2971215073);
+}
+
+TEST_F(FibonacciTest, FibOf48_Overflow) {
+    machine.reset();
+
+    machine.setMemoryValue(100, 48);
+    machine.setMemoryValue(101, 0); // result address
+
+    auto program = createFibonacciProgram(100, 101);
+    machine.loadProgram(program);
+    machine.run();
+
+    EXPECT_TRUE(machine.getStatusRegister().CF);
+}
