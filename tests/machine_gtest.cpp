@@ -1,4 +1,12 @@
-// src/machine_test.cpp
+/**
+ * @file machine_gtest.cpp
+ * @brief Unit tests for the RISC Emulator.
+ *
+ * This file contains a suite of Google Test cases to verify the functionality
+ * of the RISC emulator, including arithmetic operations, memory handling,
+ * control flow, and specific programs like factorial, sum of a list, and Fibonacci.
+ */
+
 #include "../src/machine.hpp"
 #include "../src/algorithms.hpp"
 #include "../src/instruction.hpp"

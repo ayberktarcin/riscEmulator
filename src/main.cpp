@@ -1,4 +1,12 @@
-// src/main.cpp
+/**
+ * @file main.cpp
+ * @brief Entry point for the RISC Emulator demonstrating Fibonacci, Factorial, and List Sum programs.
+ *
+ * This file contains the main function, which initializes the RISC emulator,
+ * loads various programs into memory, and executes them to demonstrate the
+ * functionality of the emulator.
+ */
+
 #include "machine.hpp"
 #include <iostream>
 #include <vector>

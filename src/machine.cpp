@@ -1,35 +1,79 @@
-// src/machine.cpp
+/**
+ * @file machine.cpp
+ * @brief Implementation of the RISC emulator machine.
+ */
+
 #include "machine.hpp"
 #include "logging.hpp"
 #include <iostream>
 #include <cstring>
 
+/**
+ * @brief Constructs a RiscMachine with specified program and data memory sizes.
+ * 
+ * @param program_size The size of the program memory.
+ * @param data_size The size of the data memory.
+ */
 RiscMachine::RiscMachine(size_t program_size, size_t data_size) {
     program_memory.resize(program_size);
     data_memory.resize(data_size);
 }
 
+/**
+ * @brief Loads a program into the machine's program memory.
+ * 
+ * @param program A vector of instructions to load into the program memory.
+ */
 void RiscMachine::loadProgram(const std::vector<Instruction>& program) {
     program_memory = program;
-    pc  = 0;
-    status_register = {};  // Reset status register
-    data_registers.fill(0);
+    pc = 0;  // Reset the program counter to the start of the program
+    status_register = {};  // Reset the status register
+    data_registers.fill(0);  // Clear all data registers
 }
+
+/**
+ * @brief Executes the loaded program until a HALT instruction is encountered or the program ends.
+ */
 void RiscMachine::run() {
     while (pc < program_memory.size()) {
-        Instruction instr = program_memory[pc];
-        pc++;
-        execute(instr);
-        if (instr.opcode == Opcode::HALT) break;
+        Instruction instr = program_memory[pc];  // Fetch the next instruction
+        pc++;  // Increment the program counter
+        execute(instr);  // Execute the instruction
+        if (instr.opcode == Opcode::HALT) break;  // Stop execution on HALT
     }
 }
 
+/**
+ * @brief Resets the machine to its initial state.
+ * 
+ * Resets the program counter, clears the status register, and resets all data registers.
+ */
 void RiscMachine::reset() {
-    pc = 0;
-    status_register = {};  // Reset status register
-    data_registers.fill(0);
+    pc = 0;  // Reset the program counter
+    status_register = {};  // Reset the status register
+    data_registers.fill(0);  // Clear all data registers
 }
 
+/**
+ * @brief Executes a single instruction on the RISC machine.
+ * 
+ * This function is the core of the RISC machine emulator, responsible for 
+ * decoding and executing instructions based on their opcode and operands. 
+ * It supports a variety of operations including arithmetic, memory access, 
+ * control flow, and flag manipulation. Each instruction modifies the state 
+ * of the machine, including registers, memory, and status flags, as needed.
+ * 
+ * Supported operations include:
+ * - HALT: Stops execution.
+ * - LOAD/STORE: Memory access operations.
+ * - ADD/SUB/MUL/DIV: Arithmetic operations with flag updates.
+ * - CMP: Compares two registers and updates the zero flag.
+ * - JMP: Conditional and unconditional jumps.
+ * - MOV: Copies data between registers.
+ * - CHECK_FLAG: Reads specific status flags into a register.
+ * 
+ * @param instr The instruction to execute, containing the opcode and operands.
+ */
 void RiscMachine::execute(const Instruction& instr) {
     switch (instr.opcode) {
         case Opcode::HALT:
@@ -220,18 +264,34 @@ void RiscMachine::execute(const Instruction& instr) {
         break;
     }
 }
-
+/**
+ * @brief Sets a value in the data memory at the specified address.
+ * 
+ * @param address The address in the data memory to set the value.
+ * @param value The value to set at the specified address.
+ */
 void RiscMachine::setMemoryValue(uint32_t address, uint32_t value) {
     if (address < data_memory.size())
         data_memory[address] = value;
 }
 
+/**
+ * @brief Retrieves a value from the data memory at the specified address.
+ * 
+ * @param address The address in the data memory to retrieve the value from.
+ * @return The value at the specified address, or 0 if the address is out of bounds.
+ */
 uint32_t RiscMachine::getMemoryValue(uint32_t address) const {
     if (address < data_memory.size())
         return data_memory[address];
     return 0;
 }
 
+/**
+ * @brief Retrieves the current status register of the machine.
+ * 
+ * @return The current status register containing flags such as ZF, CF, NF, OF, and DF.
+ */
 StatusRegister RiscMachine::getStatusRegister() const {
     return status_register;
 }

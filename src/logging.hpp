@@ -1,3 +1,8 @@
+/**
+ * @file logging.hpp
+ * @brief Provides logging macros for the RISC emulator.
+ */
+
 #pragma once
 
 // Define DEBUG_LOGGING to enable logging

@@ -1,6 +1,33 @@
-// algorithm.cpp
+/**
+ * @file algorithms.cpp
+ * @brief Implements functions to generate instruction sequences for various algorithms in the RISC emulator.
+ */
 #include "algorithms.hpp"
 
+/**
+ * @brief Generates a program to compute the factorial of a number using a custom instruction set.
+ * 
+ * This function creates a sequence of instructions that calculates the factorial of a number
+ * stored at a specific memory address (`input_addr`) and stores the result at another memory
+ * address (`result_addr`). The program uses a loop to multiply numbers from the input value
+ * down to 1, storing the intermediate results in a register.
+ * 
+ * @param input_addr The memory address where the input number (n) is stored.
+ * @param result_addr The memory address where the computed factorial result will be stored.
+ * @return A vector of instructions representing the factorial computation program.
+ * 
+ * Instructions:
+ * - Initializes registers:
+ *   - R0: Stores the result (initialized to 1).
+ *   - R1: Stores the input value (n).
+ *   - R2: Constant value 1.
+ *   - R3: Constant value 0.
+ * - Checks if the input value is 0 and directly stores 0 as the result if true.
+ * - Implements a loop to multiply the result by the current value of R1 (n) and decrement R1
+ *   until it reaches 1.
+ * - Stores the final result in memory at `result_addr`.
+ * - Halts the program.
+ */
 std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t result_addr) {
     return {
         {Opcode::LOAD, 0, 1, 2},                // R0 = 1 (result)
@@ -27,11 +54,27 @@ std::vector<Instruction> createFactorialProgram(uint32_t input_addr, uint32_t re
 }
 
 
+/**
+ * @brief Generates a program to compute the sum of elements in an array.
+ * 
+ * This function creates a sequence of instructions for a RISC-like emulator to compute
+ * the sum of all elements in an array. The result is stored in the specified memory address.
+ * 
+ * @param array_addr The memory address where the array starts.
+ * @param length_addr The memory address where the length of the array is stored.
+ * @param result_addr The memory address where the computed sum will be stored.
+ * @return A vector of instructions representing the program to compute the sum of the array.
+ * 
+ * @details
+ * - The program iterates through the array, adding each element to a running total.
+ * - If an overflow occurs during addition, the program halts execution.
+ * - The result is stored in the memory address specified by `result_addr`.
+ */
 std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t length_addr, uint32_t result_addr) {
     return {
         {Opcode::LOAD, 0, array_addr, 0},      // R0 = array address
         {Opcode::LOAD, 1, length_addr, 0},     // counter = length
-        {Opcode::LOAD, 2, result_addr, 0},     // R3 = result pointer
+        {Opcode::LOAD, 2, result_addr, 0},     // R2 = result pointer
         {Opcode::LOAD, 3, 1, 2},               // R3 = 1 (for pointer++ and counter--)
         
         // loop_start @ pc = 4
@@ -56,6 +99,24 @@ std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t leng
 }
 
 
+/**
+ * @brief Generates a program to compute the Fibonacci sequence up to a given number.
+ * 
+ * This function creates a sequence of instructions for a RISC-like emulator to compute
+ * the Fibonacci number for a given input `n`. The result is stored in the specified 
+ * memory address.
+ * 
+ * @param input_addr The memory address where the input value `n` is stored.
+ * @param result_addr The memory address where the computed Fibonacci result will be stored.
+ * @return A vector of instructions representing the program to compute the Fibonacci sequence.
+ * 
+ * @details
+ * - If `n == 0`, the result is `0`.
+ * - If `n == 1`, the result is `1`.
+ * - For `n > 1`, the program iteratively computes the Fibonacci sequence using a loop.
+ * - The program handles potential overflow during addition and halts execution if detected.
+ * - The result is stored in the memory address specified by `result_addr`.
+ */
 std::vector<Instruction> createFibonacciProgram(uint32_t input_addr, uint32_t result_addr) {
     return {
         {Opcode::LOAD, 0, input_addr, 0},       // R0 = n
