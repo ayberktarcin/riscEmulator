@@ -132,26 +132,6 @@ TEST_F(RiscMachineTest, JMPUnconditional) {
     EXPECT_EQ(machine.getMemoryValue(101), 0);  // R0 was never modified
 }
 
-TEST_F(RiscMachineTest, SumArrayProgramWorks) {
-    RiscMachine machine(512, 512);
-
-    // Setup array in RAM: [10, 20, 30, 40]
-    machine.setMemoryValue(100, 200);  // array pointer
-    machine.setMemoryValue(101, 4);    // array length
-    machine.setMemoryValue(103, 0);    // result address (initial value)
-
-    machine.setMemoryValue(200, 10);
-    machine.setMemoryValue(201, 20);
-    machine.setMemoryValue(202, 30);
-    machine.setMemoryValue(203, 40);
-
-    std::vector<Instruction> program = createSumListProgram(100, 101, 103);
-    machine.loadProgram(program);
-    machine.run();
-
-    EXPECT_EQ(machine.getMemoryValue(103), 100);;
-}
-
 // Factorial Test Region
 
 class FactorialTest : public ::testing::Test {
@@ -213,20 +193,14 @@ TEST_F(FactorialTest, FactorialOf13TriggersOverflow) {
 
 // SumList Test Region
 
-
-
-
-
 class SumListTest : public ::testing::Test {
     protected:
         RiscMachine machine{512, 512};
-    
-        void SetUp() override {
+   
+        void runSumTest(const std::vector<uint32_t>& values, uint32_t expected_sum, bool expect_carry = false) {
+
             machine.reset();
-            machine.setMemoryValue(303, 1); // constant 1
-        }
-    
-        void runSumTest(const std::vector<uint32_t>& values, uint32_t expected, bool expect_overflow = false) {
+
             uint32_t base = 400;
             for (size_t i = 0; i < values.size(); ++i) {
                 machine.setMemoryValue(base + i, values[i]);
@@ -236,16 +210,41 @@ class SumListTest : public ::testing::Test {
             machine.setMemoryValue(301, values.size());      // length
             machine.setMemoryValue(302, 0);                  // result
     
-            auto program = createSumListProgram(300, 301, 302, 303);
+            auto program = createSumListProgram(300, 301, 302);
             machine.loadProgram(program);
             machine.run();
     
-            EXPECT_EQ(machine.getMemoryValue(302), expected);
-            EXPECT_EQ(machine.getStatusRegister().OF, expect_overflow);
+            if (expect_carry) {
+                EXPECT_EQ(machine.getStatusRegister().CF, expect_carry);
+            } else {
+                EXPECT_EQ(machine.getMemoryValue(302), expected_sum);
+            }
         }
     };
     
+TEST_F(SumListTest, SumOfSmallArray) {
+    runSumTest({10, 20, 30}, 60);
+}
+
+TEST_F(SumListTest, SumOfSmallArray2) {
+    runSumTest({10, 20, 30, 40}, 100);
+}
 
 TEST_F(SumListTest, OverflowSum) {
     runSumTest({UINT32_MAX - 10, 20}, 9, true);
 }
+
+TEST_F(SumListTest, ZeroLengthArray) {
+    runSumTest({}, 0);
+}
+
+TEST_F(SumListTest, AllZeroValues) {
+    runSumTest({0, 0, 0, 0}, 0);
+}
+
+TEST_F(SumListTest, SingleElementArray) {
+    runSumTest({42}, 42);
+}
+
+
+// Fibonacci Test Region

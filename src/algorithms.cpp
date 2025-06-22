@@ -32,15 +32,20 @@ std::vector<Instruction> createSumListProgram(uint32_t array_addr, uint32_t leng
         {Opcode::LOAD, 0, array_addr, 0},      // R0 = array address
         {Opcode::LOAD, 1, length_addr, 0},     // counter = length
         {Opcode::LOAD, 2, result_addr, 0},     // R3 = result pointer
-        {Opcode::LOAD, 3, 1, 2},               // R5 = 1 (for pointer++ and counter--)
+        {Opcode::LOAD, 3, 1, 2},               // R3 = 1 (for pointer++ and counter--)
         
         // loop_start @ pc = 4
         {Opcode::LOAD, 4, 0, 1},              // R4 = RAM[R0]
         {Opcode::ADD, 2, 2, 4},               // sum += R4
+        
+        {Opcode::CHECK_FLAG, 5, 1, 0},         // check if sum overflowed
+        {Opcode::CMP, 0, 5, 3},               // if overflow
+        {Opcode::JMP, 15, 1, 0},              // if ZF, jump to end
+
         {Opcode::ADD, 0, 0, 3},               // array_ptr++
 
         {Opcode::CMP, 0, 1, 3},               // if counter == 1
-        {Opcode::JMP, 11, 1, 0},              // if ZF, jump to end
+        {Opcode::JMP, 14, 1, 0},              // if ZF, jump to end
 
         {Opcode::SUB, 1, 1, 3},               // counter--
         {Opcode::JMP, 4, 0, 0},               // loop

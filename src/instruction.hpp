@@ -22,6 +22,7 @@ enum class Opcode {
     MUL,    /**< Multiply two data_registers and store result in destination */
     DIV,     /**< Divide two data_registers and store result in destination */
     MOV,    /**< Move value from one register to another */
+    CHECK_FLAG /**< Check a specific flag in the status register */
 };
 
 /**

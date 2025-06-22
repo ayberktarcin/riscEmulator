@@ -91,16 +91,45 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::ADD:
-            if (instr.dst < data_registers.size() && instr.src1 < data_registers.size() && instr.src2 < data_registers.size())
-                data_registers[instr.dst] = data_registers[instr.src1] + data_registers[instr.src2];
-                LOG_INFO("Adding R" << instr.src1<< " - " << data_registers[instr.src1]  <<" and R" 
-                         << instr.src2 << " - " << data_registers[instr.src2] <<" into R" << instr.dst);
- 
+            if (instr.dst < data_registers.size() &&
+                instr.src1 < data_registers.size() &&
+                instr.src2 < data_registers.size()) {
+        
+                uint32_t a = data_registers[instr.src1];
+                uint32_t b = data_registers[instr.src2];
+                uint64_t result = static_cast<uint64_t>(a) + b;
+        
+                data_registers[instr.dst] = static_cast<uint32_t>(result);
+                
+                // Carry flag: result exceeded 32 bits
+                status_register.CF = (result > UINT32_MAX);
+
+                // Negative flag: result MSB is 1
+                status_register.NF = (result >> 31) & 1;
+        
+                LOG_INFO("Adding R" << instr.src1 << " - " << data_registers[instr.src1]
+                         << " and R" << instr.src2 << " - " << data_registers[instr.src2]
+                         << " into R" << instr.dst << (status_register.CF ? " [CARRY]" : ""));
+            }
             break;
 
         case Opcode::SUB:
-            if (instr.dst < data_registers.size() && instr.src1 < data_registers.size() && instr.src2 < data_registers.size())
-                data_registers[instr.dst] = data_registers[instr.src1] - data_registers[instr.src2];
+            if (instr.dst < data_registers.size() &&
+            instr.src1 < data_registers.size() &&
+            instr.src2 < data_registers.size()) {
+
+                uint32_t lhs = data_registers[instr.src1];
+                uint32_t rhs = data_registers[instr.src2];
+                uint32_t result = lhs - rhs;
+
+                data_registers[instr.dst] = result;
+
+                // Carry flag (in subtraction, CF = borrow occurred → if lhs < rhs)
+                status_register.CF = (lhs < rhs);
+
+                // Negative flag (set if MSB is 1 → interpreted as signed negative)
+                status_register.NF = ((result >> 31) & 1);
+            }
             break;
 
         case Opcode::CMP:
@@ -133,6 +162,7 @@ void RiscMachine::execute(const Instruction& instr) {
 
                     // Set overflow flag if result doesn't fit in 32 bits
                     status_register.OF = (result > UINT32_MAX);
+                    status_register.NF = (result >> 31) & 1;
 
                     LOG_INFO( "MUL: R" << instr.dst << " = " << data_registers[instr.src1]
                     << " * " << data_registers[instr.src2]
@@ -142,15 +172,27 @@ void RiscMachine::execute(const Instruction& instr) {
             break;
 
         case Opcode::DIV:
-            if (instr.dst < data_registers.size() && instr.src1 < data_registers.size() && instr.src2 < data_registers.size()) {
-                if (data_registers[instr.src2] != 0) {
-                    data_registers[instr.dst] = data_registers[instr.src1] / data_registers[instr.src2];
-                    status_register.DF = 0; // Clear division by zero flag
-                } else {
-                    LOG_ERROR("Error: Division by zero at PC=" << pc-1);
-                    status_register.DF = 1; // Set division by zero flag
-                    //pc = program_memory.size(); // Halt the program by setting PC out of bounds
-                }
+            if (instr.dst < data_registers.size() && 
+                instr.src1 < data_registers.size() && 
+                instr.src2 < data_registers.size()) {
+
+                    uint32_t dividend = data_registers[instr.src1];
+                    uint32_t divisor = data_registers[instr.src2];
+                    // Check for division by zero                    
+                    if (divisor== 0) {
+                        LOG_ERROR("Error: Division by zero at PC=" << pc-1);
+                        status_register.DF = 1; // Set division by zero flag
+                        //pc = program_memory.size(); // Halt the program by setting PC out of bounds
+                    } else {
+                        uint32_t result = dividend / divisor;
+                        data_registers[instr.dst] = result;
+
+                        status_register.NF = (result >> 31) & 1;
+                        status_register.DF = 0;
+                    }
+                    // No meaningful overflow or carry for unsigned div
+                    status_register.OF = 0;
+                    status_register.CF = 0;
             }
             break;
         
@@ -159,6 +201,23 @@ void RiscMachine::execute(const Instruction& instr) {
                 data_registers[instr.dst] = data_registers[instr.src1];
             }
             break;
+        
+        case Opcode::CHECK_FLAG:
+        if (instr.dst < data_registers.size()) {
+            uint32_t value = 0;
+            switch (instr.src1) {
+                case 0: value = status_register.ZF; break; // Zero Flag
+                case 1: value = status_register.CF; break; // Carry Flag
+                case 2: value = status_register.NF; break; // Negative Flag
+                case 3: value = status_register.OF; break; // Overflow Flag
+                case 4: value = status_register.DF; break; // Division by Zero Flag
+                default: value = 0; break;  // unknown flag
+            }
+            data_registers[instr.dst] = value;
+    
+            LOG_INFO("CHECK_FLAG: R" << instr.dst << " = flag[" << instr.src1 << "] = " << value);
+        }
+        break;
     }
 }
 
